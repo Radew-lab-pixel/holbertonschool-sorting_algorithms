@@ -2,7 +2,6 @@
 
 int sort(listint_t *list);
 
-
 int sort(listint_t *list)
 {
 	listint_t *key = list; /* search key node */
@@ -76,17 +75,15 @@ int sort(listint_t *list)
 
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *head = *list, *temp;
-	listint_t *current, *key, *nextKey; /**tempNext = NULL, *tempPrev = NULL*/
-	
-	/*int sorted = 0;*/
+	/*listint_t *head = *list;*/
+	listint_t *current, *key, *nextKey;
+	int sorted = 0;
 
 	if ((head == NULL) || (!head->next))
-	/*if (*list) || (*list->next)*/
 		return;
 	
-	current = head;  /*current currently point to head */
-	/*current = *list; */
+	/*current = head;  current currently point to head */
+	current = *list;
 	key = current->next; /* 2nd node and also the key*/
 
 	/*while (current != NULL)*/
@@ -94,48 +91,19 @@ void insertion_sort_list(listint_t **list)
 	{
  		/*key = current->next; key node start from second node */
 		nextKey = key->next; /* kept key->next for while loop */
-		
+
 		/*while (key != NULL)*/
-		while ((current) && (current->n > key->n))
+		while (current)
+		
 		{
-			/*sorted = sort(key);*/
-			/*tempNext = key->next;  kept address of key->next */
-			/*tempPrev = current->prev;   kept address of current->prev */
+			sorted = sort(key);
 
-			
-			if (current->prev) /* not first node */
-			{
-				/*tempPrev->next = key;  swap key position */
-				current->prev->next = key;
-			}
-			else /* current is first node */
-			{ 
-				head = key; 
-			}
-			/*if (tempNext)  key is not the last node */
-			/*	tempNext->prev = current;  swap current positon */
-			if (key->next)
-				key->next->prev = current;
-
-			/* swapped */
-			temp = key->next; /* store key->next */
-			key->next = current;
-			key->prev = current->prev;
-			
-			current->next = temp;
-			current->prev = key;
-
-			print_list(head);
-			/* if (sorted) */
-			/*	print_list(*list); */
-			/*key = key->next;*/
+			if (sorted)
+				print_list(*list);
+			key = key->next;
 			/*current = current->next;*/
-			current = key->prev;
 		}
-		/*current = current->next;*/
+		current = current->next;
 		/*key = key->next;*/
-		key = nextKey;
-		if (key)
-			current = key->prev;
 	}
 }
