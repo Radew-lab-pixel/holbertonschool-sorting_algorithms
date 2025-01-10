@@ -55,6 +55,7 @@ int sort(listint_t *list)
 			previous->next = tempNext;
 			tempNext->prev = previous;
 			
+			list = key;
 			sorted = 1;
 
 		}
@@ -75,8 +76,8 @@ int sort(listint_t *list)
 
 void insertion_sort_list(listint_t **list)
 {
-	/*listint_t *head = *list;*/
-	listint_t *current, *key, *nextKey;
+	listint_t *head = *list;
+	listint_t *current, *key; /* *nextKey; */
 	int sorted = 0;
 
 	if ((head == NULL) || (!head->next))
@@ -86,14 +87,14 @@ void insertion_sort_list(listint_t **list)
 	current = *list;
 	key = current->next; /* 2nd node and also the key*/
 
-	/*while (current != NULL)*/
-	while (key)
+	while (current != NULL)
+	/*while (key) */
 	{
- 		/*key = current->next; key node start from second node */
-		nextKey = key->next; /* kept key->next for while loop */
+ 		key = current->next; /* key node start from second node */
+		current = key->next; /* kept key->next for while loop */
 
-		/*while (key != NULL)*/
-		while (current)
+		while (key != NULL)
+		/*while (current)*/
 		
 		{
 			sorted = sort(key);
