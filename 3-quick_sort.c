@@ -69,19 +69,20 @@ size_t partition(int *array, size_t start, size_t end, size_t size)
 			temp = array[i];
 			array[i] = array[j];
 			array[j] = temp;
-			if (i != j) /* added to comply with output in checker */
+			if (i != j)  /*added to comply with output in checker */
 				print_array(array, size);
 
 			i++;
 		}
 	}
-	if (pivotVal < array[i + 1]) /* added to comply with output */
+	if (pivotVal < array[i]) /* added to comply with output checker */
+	/* if (pivotVal < array[i] + 1) still work at end result but failed checker*/ 
 	{
 		/* swap pivot */
-		temp = array[i];
+		temp = array[i ];
 		array[i] = array[end];
 		array[end] = temp;
 		print_array(array, size);
-	}
+	} 
 	return (i);
 }
