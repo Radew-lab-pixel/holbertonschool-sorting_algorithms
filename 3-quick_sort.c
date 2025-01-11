@@ -37,7 +37,7 @@ void quick_sort_local(int *array, int start, int end, size_t size)
 	int pivot;
 
 	/*if ((array == NULL) || (end < 2)) failed 2 elements checker */
-	if ((current == NULL) || (size <= 1))
+	if ((array == NULL) || (size <= 1))
 
 		return;
 	if (start < end)
