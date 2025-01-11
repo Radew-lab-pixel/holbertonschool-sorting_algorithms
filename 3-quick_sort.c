@@ -1,6 +1,7 @@
 #include "sort.h"
 
-void quick_sort_local(int *array, size_t size, int *origin_array, size_t origin_size);
+void quick_sort_local(int *array, int start, int end, size_t size);
+size_t partition(int *array, size_t start, size_t end, size_t size);
 
 /**
  * quick_sort - function to quick sort ( Lomuto partition) on array
@@ -11,82 +12,73 @@ void quick_sort_local(int *array, size_t size, int *origin_array, size_t origin_
 
 void quick_sort(int *array, size_t size)
 {
-	/*int *origin_array = array;*/
-	/*size_t origin_size = size;*/
-	
-	if ((array == NULL) || (size < 2))
+	int *current = array;
+
+	if ((current == NULL) || (size < 2))
 		return;
 
-	quick_sort_local(array, size, array, size);
+	quick_sort_local(array, 0, size - 1, size);
+	return;
+}	
+
+/**
+ * quick_sort_local - subfunction to allow recursive sorting
+ * @array : array input
+ * @start : position of start array
+ * @size : original size of the array
+ * @end : position of end array
+ * Return: void
+ */
+
+void quick_sort_local(int *array, int start, int end, size_t size)
+{
+	/* size_t i = left, j = right, ;*/
+	/* int pivot = array[(left + right) / 2];*/
+	int pivot;
+	
+	if ((array == NULL) || (end < 2))
+		return;
+	if (start < end)
+	{	
+		pivot = partition(array, start, end, size);
+		
+		/*recursively left and right partition */
+		quick_sort_local(array, start, pivot - 1, size); /* left */
+		quick_sort_local(array, pivot + 1, end, size); /* right */
+	}
 }
 
 /**
- * quick_sort_local - local function to quick sort ( Lomuto partition) on array
+ * partition - partitioning using Lomuto sorting
  * @array : array input
- * @size : size of the array
- * Return: void                                                                                                                                                          
- *
- * Description : this had to be duplicated due to
- * i am expected to print the array after each time i swap two elements
+ * @start : position of start array
+ * @end : position of end array
+ * Return: position of updated pivot
  */
 
-void quick_sort_local(int *array, size_t size, int *origin_array, size_t origin_size)
+size_t partition(int *array, size_t start, size_t end, size_t size)
 {
-	int *current = array; /* copy of array */
-	int pivot, temp;
-	size_t i, j; /* left, right; */
+	int pivotVal = array[end]; /* pivot value of array[end] */
+	size_t i = start, j;
+	int temp;
 
-	/*size_t origin_size; */
-	/* int *origin_array , origin_flag; */
-
-	/*if ((!array) || (size < 1) */
-	if ((array == NULL) || (size < 2))  
-		return;
-
-
-
-	pivot = current[size - 1]; /* end of array as pivot */
-	j = 0; /* if not segmentation error */ 
-
-	for (i = 0; i < size - 1; i++)
+	for (j = start; j < end; j++)
 	{
-		/* if (current[i] <= pivot) */
-		if (current[i] < pivot) 
+		if (array[j] < pivotVal)
 		{
-			temp = current[i]; /* swap */
-			current[i] = current[j];
-			current[j] = temp;
+			temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+			print_array(array, size);
 
-			j++;
-
-			/*print_array(array, size);*/
-			/*print_array(current, origim */
-			print_array(origin_array, origin_size);
+			i++;	
 		}
 	}
-	/** swap pivot with array[j] as array[j] > pivot */
-	/*temp = current[size - 1]; */
-	temp = current[j];
-	current[j] = current[size - 1];
-	current[size - 1] = temp;
-	/* current[size - 1] = current[j]; */
-	/* current[j] = temp; */
+	/* swap pivot */
+	temp = array[i];
+	array[i] = array[end];
+	array[end] = temp;
+	/*print_array(array, size);*/
 
-	/*print_array(array, size); */
-	
-	/* sort the partitions */
-	
-	/*quick_sort_local(current, j - 1, origin_array, origin_size); Sort left partition */                                                                            
-        /*quick_sort_local(current + j, size - j, origin_array, origin_size);   Sort right partition */         
-
-	/*quick_sort_local(current, j -1, origin_array, origin_size); Sort left partition */
-    	/*quick_sort_local(current + j, size - j - 1, origin_array, origin_size);  Sort right partition */
-	
-	quick_sort_local(current, j, origin_array, origin_size);  /*Sort left partition */
-        quick_sort_local(current + j + 1, size - j - 1, origin_array, origin_size);   /*Sort right partition */
-	/*left = j; */
-	/*right = size - 1 - left; */
-	/* quick_sort(current, left); */
-	/*quick_sort(current + j, size - j - 1);*/
-	/*quick_sort(current + left, right); */
+	return (i);
 }
