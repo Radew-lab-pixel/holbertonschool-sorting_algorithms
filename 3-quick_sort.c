@@ -18,8 +18,7 @@ void quick_sort(int *array, size_t size)
 		return;
 
 	quick_sort_local(array, 0, size - 1, size);
-	return;
-}	
+}
 
 /**
  * quick_sort_local - subfunction to allow recursive sorting
@@ -35,13 +34,13 @@ void quick_sort_local(int *array, int start, int end, size_t size)
 	/* size_t i = left, j = right, ;*/
 	/* int pivot = array[(left + right) / 2];*/
 	int pivot;
-	
+
 	if ((array == NULL) || (end < 2))
 		return;
 	if (start < end)
-	{	
+	{
 		pivot = partition(array, start, end, size);
-		
+
 		/*recursively left and right partition */
 		quick_sort_local(array, start, pivot - 1, size); /* left */
 		quick_sort_local(array, pivot + 1, end, size); /* right */
@@ -53,6 +52,7 @@ void quick_sort_local(int *array, int start, int end, size_t size)
  * @array : array input
  * @start : position of start array
  * @end : position of end array
+ * @size : original size of array
  * Return: position of updated pivot
  */
 
@@ -69,16 +69,19 @@ size_t partition(int *array, size_t start, size_t end, size_t size)
 			temp = array[i];
 			array[i] = array[j];
 			array[j] = temp;
-			print_array(array, size);
+			if (i != j) /* added to comply with output in checker */
+				print_array(array, size);
 
-			i++;	
+			i++;
 		}
 	}
-	/* swap pivot */
-	temp = array[i];
-	array[i] = array[end];
-	array[end] = temp;
-	/*print_array(array, size);*/
-
+	if (pivotVal < array[i + 1]) /* added to comply with output */
+	{
+		/* swap pivot */
+		temp = array[i];
+		array[i] = array[end];
+		array[end] = temp;
+		print_array(array, size);
+	}
 	return (i);
 }

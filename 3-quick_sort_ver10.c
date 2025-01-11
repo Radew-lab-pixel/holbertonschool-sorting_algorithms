@@ -1,7 +1,7 @@
 #include "sort.h"
 
-void quick_sort_local(int *array, int start, int end);
-size_t partition(int *array, size_t start, size_t end);
+void quick_sort_local(int *array, int start, int end, size_t size);
+size_t partition(int *array, size_t start, size_t end, size_t size);
 
 /**
  * quick_sort - function to quick sort ( Lomuto partition) on array
@@ -17,11 +17,20 @@ void quick_sort(int *array, size_t size)
 	if ((current == NULL) || (size < 2))
 		return;
 
-	quick_sort_local(array, 0, size - 1);
+	quick_sort_local(array, 0, size - 1, size);
 	return;
 }	
 
-void quick_sort_local(int *array, int start, int end)
+/**
+ * quick_sort_local - subfunction to allow recursive sorting
+ * @array : array input
+ * @start : position of start array
+ * @size : original size of the array
+ * @end : position of end array
+ * Return: void
+ */
+
+void quick_sort_local(int *array, int start, int end, size_t size)
 {
 	/* size_t i = left, j = right, ;*/
 	/* int pivot = array[(left + right) / 2];*/
@@ -31,16 +40,23 @@ void quick_sort_local(int *array, int start, int end)
 		return;
 	if (start < end)
 	{	
-		pivot = partition(array, start, end);
+		pivot = partition(array, start, end, size);
 		
 		/*recursively left and right partition */
-
-		quick_sort_local(array, start, pivot - 1); /*left */
-		quick_sort_local(array, pivot + 1, end);
+		quick_sort_local(array, start, pivot - 1, size); /* left */
+		quick_sort_local(array, pivot + 1, end, size); /* right */
 	}
 }
 
-size_t partition(int *array, size_t start, size_t end)
+/**
+ * partition - partitioning using Lomuto sorting
+ * @array : array input
+ * @start : position of start array
+ * @end : position of end array
+ * Return: position of updated pivot
+ */
+
+size_t partition(int *array, size_t start, size_t end, size_t size)
 {
 	int pivotVal = array[end]; /* pivot value of array[end] */
 	size_t i = start, j;
@@ -50,24 +66,19 @@ size_t partition(int *array, size_t start, size_t end)
 	{
 		if (array[j] < pivotVal)
 		{
-			/*if (i != j)  added due segmentation error */
-			/*{ */
 			temp = array[i];
 			array[i] = array[j];
 			array[j] = temp;
-			/*} */
+			print_array(array, size);
+
 			i++;	
 		}
 	}
-	
-
-	
-
 	/* swap pivot */
 	temp = array[i];
 	array[i] = array[end];
 	array[end] = temp;
-	
-	
+	/*print_array(array, size);*/
+
 	return (i);
 }
