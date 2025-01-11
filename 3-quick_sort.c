@@ -14,7 +14,8 @@ void quick_sort(int *array, size_t size)
 {
 	int *current = array;
 
-	if ((current == NULL) || (size < 2))
+	/* if ((current == NULL) || (size < 2)) failed 2 elements checker ?*/
+	if ((current == NULL) || (size <= 1))
 		return;
 
 	quick_sort_local(array, 0, size - 1, size);
@@ -35,7 +36,9 @@ void quick_sort_local(int *array, int start, int end, size_t size)
 	/* int pivot = array[(left + right) / 2];*/
 	int pivot;
 
-	if ((array == NULL) || (end < 2))
+	/*if ((array == NULL) || (end < 2)) failed 2 elements checker */
+	if ((current == NULL) || (size <= 1))
+
 		return;
 	if (start < end)
 	{
@@ -76,13 +79,13 @@ size_t partition(int *array, size_t start, size_t end, size_t size)
 		}
 	}
 	if (pivotVal < array[i]) /* added to comply with output checker */
-	/* if (pivotVal < array[i] + 1) still work at end result but failed checker*/ 
+	/* if (pivotVal < array[i] + 1)  result ok but fail checker*/
 	{
 		/* swap pivot */
-		temp = array[i ];
+		temp = array[i];
 		array[i] = array[end];
 		array[end] = temp;
 		print_array(array, size);
-	} 
+	}
 	return (i);
 }
